@@ -1,31 +1,34 @@
-# Cynthia Ugwu — Portfolio Website 🎨
+﻿# Cynthia Ugwu — Portfolio Clone 🎨
 
-A clean, minimal, and interactive **product designer portfolio** built with vanilla HTML, CSS, and JavaScript. Features smooth scroll animations, a custom mouse follower, and hover-triggered image reveals on project cards.
+> A pixel-faithful clone of [Cynthia Ugwu's](https://cynthiaugwu.com/) award-winning product designer portfolio, rebuilt to study advanced CSS/JS animation techniques.
+
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=flat&logo=greensock&logoColor=black)
 
 ---
 
 ## ✨ Features
 
-- 🖱️ **Custom Mouse Follower** — A morphing mini-circle that follows cursor movement with dynamic squish/stretch scaling
-- 🖼️ **Hover Image Reveal** — Project cards reveal tilting images on mouse hover with GSAP-powered rotation
-- 🚂 **Locomotive Scroll** — Buttery smooth scrolling experience throughout the page
-- 📐 **Minimalist Dark Design** — Black background with high-contrast typography for a premium, modern aesthetic
-- 📱 **Responsive Layout** — Adapts cleanly across different screen sizes
+- 🖱️ **Velocity-aware cursor** — Custom blob cursor that squishes/stretches based on real-time mouse speed
+- 🖼️ **Hover image reveal** — Project cards reveal a tilting image that rotates proportional to horizontal mouse speed
+- 🚂 **Locomotive Scroll** — Inertia-based buttery-smooth scrolling across the entire page
+- 🎬 **GSAP Timelines** — Coordinated multi-step entrance animations with staggered `Expo.easeInOut` easing
+- 🌑 **Dark minimal design** — High-contrast black theme inspired by the original portfolio
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-cynthiaugwu-main/
-├── index.html       # Main HTML structure
-├── style.css        # Core styles & layout
-├── loco.css         # Locomotive Scroll override styles
-├── script.js        # GSAP animations & interaction logic
-├── plug.png         # Project image — The Plug
-├── ixperience.png   # Project image — Ixperience
-├── hudu.png         # Project image — Hudu
-└── README.md        # You are here!
+├── index.html        # Page structure
+├── style.css         # Core styles & dark theme
+├── loco.css          # Locomotive Scroll overrides
+├── script.js         # GSAP animations & interactions
+├── plug.png          # Project — The Plug
+├── ixperience.png    # Project — Ixperience
+└── hudu.png          # Project — Hudu
 ```
 
 ---
@@ -34,77 +37,58 @@ cynthiaugwu-main/
 
 | Technology | Purpose |
 |---|---|
-| HTML5 | Page structure & semantics |
-| CSS3 | Styling, layout, dark theme |
-| JavaScript (Vanilla) | Interactivity & DOM manipulation |
-| [GSAP 3](https://greensock.com/gsap/) | Smooth animations & mouse effects |
-| [Locomotive Scroll](https://locomotivemtl.github.io/locomotive-scroll/) | Smooth scroll & scroll-based triggers |
+| HTML5 + CSS3 | Structure & dark theme styling |
+| Vanilla JavaScript | DOM manipulation & event handling |
+| [GSAP 3](https://greensock.com/gsap/) | Cursor physics & animation timelines |
+| [Locomotive Scroll](https://locomotivemtl.github.io/locomotive-scroll/) | Smooth inertia-based scrolling |
 | [Remix Icons](https://remixicon.com/) | Icon library |
 
 ---
 
-## 🚀 Getting Started
+## 🎬 Key Animations Explained
 
-### Option 1 — Direct Open (Quick)
-Simply open `index.html` in your browser.
-
-> ⚠️ **Note:** Some scroll-based animations may not trigger correctly over `file://` protocol. Use Option 2 for the full experience.
-
-### Option 2 — Local Server (Recommended)
-```bash
-# Using live-server (Node.js required)
-npx live-server
-
-# Or using Python
-python -m http.server 3000
-```
-Then visit `http://localhost:3000` (or the port shown in your terminal).
-
----
-
-## 🎬 How the Animations Work
-
-### 🖱️ Mouse Follower (`circleChaptaKaro`)
-Tracks mouse position and applies a dynamic `scaleX`/`scaleY` based on movement speed — making the cursor blob stretch as it moves fast and snap back to a circle when idle.
-
+### 🖱️ Cursor Squish Physics
 ```js
 xscale = gsap.utils.clamp(0.8, 1.2, dets.clientX - xprev);
 yscale = gsap.utils.clamp(0.8, 1.2, dets.clientY - yprev);
 ```
+Mouse velocity is clamped to a 0.8–1.2 scale range — the faster you move, the more the cursor stretches.
 
-### 🖼️ Project Card Hover Reveal
-Each `.elem` project card listens for `mousemove` to:
-1. Show a hidden project image at the cursor's position
-2. Rotate it based on horizontal mouse speed — faster = more tilt
-
+### 🖼️ Hover Image Rotation
 ```js
 rotate: gsap.utils.clamp(-20, 20, diffrot * 0.5)
+```
+Rotation angle is mapped directly to horizontal mouse delta — fast swipes = sharp tilt.
+
+### 🎬 Entrance Timeline
+```js
+tl.from("#nav", { y: -10, opacity: 0, duration: 1.5, ease: Expo.easeInOut })
+  .to(".boundingelem", { y: 0, duration: 2, stagger: 0.2 })
+  .from("#herofooter", { opacity: 0, duration: 1.5 });
 ```
 
 ---
 
-## 📄 Sections
+## 🚀 Running Locally
 
-| Section | Description |
-|---|---|
-| **Hero** | Name, title, location (Toronto), freelance availability |
-| **Featured Work** | The Plug, Ixperience, Hudu — 2022 projects |
-| **About Me** | Short bio with a "Let's talk" CTA |
-| **Subscribe** | YouTube channel plug |
-| **Footer** | Social links (Dribbble, Instagram, LinkedIn, Twitter) |
+**Option 1 — Direct open**
+```
+Open index.html in any browser
+```
 
----
-
-## 🎨 Design Inspiration
-
-This portfolio is inspired by **[Cynthia Ugwu](https://cynthiaugwu.com/)** — a Toronto-based product designer known for her visually bold and playful design style.
+**Option 2 — Local server (recommended for full animation support)**
+```bash
+npx live-server
+```
+Then visit `http://localhost:8080`
 
 ---
 
-## 📝 License
+## 🎨 Original Design Credit
 
-This project is a **clone/study project** built for learning purposes. All design credits go to the original designer, Cynthia Ugwu.
+This is a **clone built for learning purposes only.**
+All design credit goes to **[Cynthia Ugwu](https://cynthiaugwu.com/)** — a Toronto-based product designer.
 
 ---
 
-<div align="center">Made with ❤️ for learning web animations</div>
+<div align="center">Built to learn · Not for commercial use</div>
